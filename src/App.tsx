@@ -1,30 +1,32 @@
 import React, { Component, Suspense } from 'react';
 import { Route, Switch, Router } from "react-router-dom";
 import './App.scss';
-import { Layout } from './components/Templates/master';
+import { Master } from './components/Layout/master';
+import { Guest } from './components/Layout/Guest'
 //import { PrivateRoute } from './PrivateRoute';
 import { history } from './helpers/history';
 import { Common } from './helpers';
-import Loading from './components/Organisms/Loading';
+import Loading from './components/Loading';
+import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
 //import config from './config/Config';
 
-const Home = React.lazy(() =>
-  import(/* webpackChunkName: "home" */ "./components/Organisms/Home")
+const Login = React.lazy(() =>
+  import(/* webpackChunkName: "login" */ "./components/Login")
 );
 
-const Summary = React.lazy(() =>
-  import(/* webpackChunkName: "summary" */ "./components/Organisms/Summary")
+const Home = React.lazy(() =>
+  import(/* webpackChunkName: "home" */ "./components/Home")
 );
 
 const NotFound = React.lazy(() =>
   import(
-    /* webpackChunkName: "NotFound" */ "./components/Organisms/NotFound"
+    /* webpackChunkName: "NotFound" */ "./components/NotFound"
   )
 );
 
-const ByCountry = React.lazy(() =>
+const Checkout = React.lazy(() =>
   import(
-    /* webpackChunkName: "bycountry" */ "./components/Organisms/ByCountry"
+    /* webpackChunkName: "NotFound" */ "./components/Checkout"
   )
 );
 
@@ -53,20 +55,22 @@ export default class App extends Component<IProps, IState> {
 
 
   render() {
+    const isAuth = localStorage.getItem("isAuth");
+    const Layout = isAuth === "true" ? Master : Guest;
     return (
       <div className="App">
-          <Router history={history}>
-            <Layout>
-              <Suspense fallback={<div></div>}>
-                <Switch>
-                  <Route exact path={Common.url() + ""}  component={ByCountry} />
-                  <Route exact path={Common.url() + "summary"} component={Summary} />
-                  <Route exact path={Common.url() + "bycountry"} component={ByCountry} />
-                  <Route path='*' exact component={NotFound} />
-                </Switch>
-              </Suspense>
-            </Layout>
-          </Router>
+        <Router history={history}>
+          <Layout>
+            <Suspense fallback={<div></div>}>
+              <Switch>
+                <Route exact path={Common.url() + "login"} component={Login} />
+                <Route path={Common.url() + ""} component={Home} />
+                <PrivateRoute path={Common.url() + "checkout"} component={Checkout} />
+                <Route path='*' exact component={NotFound} />
+              </Switch>
+            </Suspense>
+          </Layout>
+        </Router>
       </div>
     )
   }

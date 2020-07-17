@@ -7,13 +7,13 @@ interface State {
     
 }
 
-export default class Home extends Component<Props, State> {
+export default class index extends Component<Props, State> {
     state = {}
 
     render() {
         return (
-            <div className={"flex-row"}>
-                <h1>Welcome to Coronavirus COVID19</h1>
+            <div>
+                
             </div>
         )
     }

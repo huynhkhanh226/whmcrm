@@ -1,14 +1,9 @@
 //import { FetchToDosAction, DeleteToDoAction } from "./todos";
-import { ISummaryRequestAction, ISummaryResponseAction } from "./summary";
-import { ICountryAction, IByCountryRequestAction, IByCountryResponseAction } from "./country";
+import { IRequestPackageAction, IResponsePackageAction } from "./packages";
 
 export enum ActionTypes {
-    GET_SUMMARY_REQUEST = "GET_SUMMARY_REQUEST",
-    GET_SUMMARY_REPONSE = "GET_SUMMARY_REPONSE",
-    GET_COUNTRIES = "GET_COUNTRIES",
-    GET_BY_COUNTRY_REQUEST = "GET_BY_COUNTRY_REQUEST",
-    GET_BY_COUNTRY_REPONSE = "GET_BY_COUNTRY_REPONSE",
+    GET_PACKAGE_REQUEST = "GET_PACKAGE_REQUEST",
+    GET_PACKAGE_REPONSE = "GET_PACKAGE_REPONSE",
 }
 
-export type Actions = ISummaryRequestAction | ISummaryResponseAction | ICountryAction | IByCountryRequestAction | IByCountryResponseAction
-
+export type Actions = IRequestPackageAction | IResponsePackageAction

@@ -1,6 +1,6 @@
 import React, { } from 'react'
 import PropTypes from 'prop-types';
-import NavBar from '../Molecules/Navbar';
+import NavBar from './Navbar';
 import styled from "styled-components";
 
 
@@ -26,7 +26,7 @@ interface Props {
 
 }
 
-export const Layout: React.FC<Props> = ({ children }) => {
+export const Master: React.FC<Props> = ({ children }) => {
     return (
         <>
             <Wrapper>
@@ -37,6 +37,6 @@ export const Layout: React.FC<Props> = ({ children }) => {
     );
 }
 
-Layout.propTypes = {
+Master.propTypes = {
     children: PropTypes.element.isRequired
 };
