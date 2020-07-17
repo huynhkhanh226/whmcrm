@@ -1,0 +1,202 @@
+
+.pointer{
+    cursor: pointer;
+}
+
+ul.pagination{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    background-color: #fff;
+    border: 1px solid #ccc; 
+    border-radius: 0px;
+    li{
+        padding: 5px 10px;
+        width: 40px;
+    }
+}
+
+.pull-right{
+    float: right;
+}
+
+.three-dot{
+    width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 8px;
+}
+
+.width-50px{
+    width: 50px;
+}
+
+.width-80px{
+    width: 80px;
+}
+
+.width-110px{
+    width: 110px;
+}
+
+.width-140px{
+    width: 140px;
+}
+
+.width-170px{
+    width: 170px;
+}
+
+.width-240px{
+    width: 240px;
+}
+
+.active{
+    color: red;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.width-50pc{
+    width: 50%;;
+}
+
+.width-200px{
+    width: 200px;
+}
+
+.paging{
+    ul{
+        float: right;
+        margin-bottom: 0px;
+    }
+    display: flex;
+    flex-direction: row;
+}
+
+.hide{
+    display: none;
+}
+
+.loading-container {
+    position: fixed; /* Sit on top of the page content */
+    display: flex; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+  }
+
+  .margin-left-15{
+      margin-left: 15px;
+  }
+
+  .margin-right-15{
+      margin-right: 15px;;
+  }
+
+  .flex-row{
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+  }
+
+  .table-container{
+      height: calc(100vh - 230px);
+      overflow-y: auto;
+
+  }
+
+  .summary{
+      display: flex;
+      flex-direction: row;
+      .right{
+        margin-right: auto;
+        order: 1;
+      }
+  }
+
+.table{
+    background-color: white;
+}
+
+.primary{
+    color: blue;
+}
+
+.danger{
+    color: #da4b59;
+}
+
+.filter-toolbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .right{
+        margin-right: 0px;
+        order: 1;
+        display: flex;
+        flex-direction: row;
+        display: none;
+    }
+}
+
+
+.filter-panel{
+    select{
+        width: 200px;
+    }
+}
+.react-datepicker-wrapper{
+    line-height: 34px;
+    input{
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+    input:focus{
+        color: #495057;
+        background-color: #fff;
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+}
+
+table {
+  th {
+    background: white;
+    position: sticky;
+    top: 0;
+    box-shadow: 0 2px 2px -1px rgba(171, 211, 218, 0.4);
+  }
+  tfoot,
+  tfoot th,
+  tfoot td {
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
+    background: white;
+    color: #333;
+    z-index:4;
+    box-shadow: 3px 2px 2px 3px rgba(171, 211, 218, 0.4);
+    font-weight: bold;
+  }
+}
+
+.react-datepicker-wrapper input{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+

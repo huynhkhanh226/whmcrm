@@ -1,0 +1,28 @@
+                    
+body, #root {
+  margin: 0;
+  font-family: 'Source Sans Pro';
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color:  #ededed;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@import '~bootstrap/dist/css/bootstrap.css'; //import from node_modules
+@import "~react-datepicker/dist/react-datepicker.css";
+@import './assets/scss/style';
+
