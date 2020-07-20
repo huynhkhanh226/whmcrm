@@ -55,7 +55,7 @@ ul.pagination{
 }
 
 .active{
-    color: red;
+    color: orangered !important;
     font-weight: bold;
     border-radius: 5px;
 }
@@ -242,5 +242,26 @@ table {
    .card{
        background-color: #e9ecef;
    }
+}
+
+.text-red{
+    color: red;
+}
+
+.width-450{
+    width: 450px;
+}
+
+.margin-right-5{
+    margin-right: 5px;
+}
+
+.btn a{
+    padding: 0px;
+    color: white
+}
+
+.btn a:hover{
+    color: white
 }
 

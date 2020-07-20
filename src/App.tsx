@@ -14,9 +14,22 @@ const Login = React.lazy(() =>
   import(/* webpackChunkName: "login" */ "./components/Login")
 );
 
+const Register = React.lazy(() =>
+  import(/* webpackChunkName: "register" */ "./components/Register")
+);
+
 const Home = React.lazy(() =>
   import(/* webpackChunkName: "home" */ "./components/Home")
 );
+
+const Packages = React.lazy(() =>
+  import(/* webpackChunkName: "packages" */ "./components/Packages")
+);
+
+const Contact = React.lazy(() =>
+  import(/* webpackChunkName: "contact" */ "./components/Contact")
+);
+
 
 const NotFound = React.lazy(() =>
   import(
@@ -64,7 +77,10 @@ export default class App extends Component<IProps, IState> {
             <Suspense fallback={<div></div>}>
               <Switch>
                 <Route exact path={Common.url() + "login"} component={Login} />
-                <Route path={Common.url() + ""} component={Home} />
+                <Route exact path={Common.url() + "register"} component={Register} />
+                <Route exact path={Common.url() + ""} component={Home} />
+                <Route exact path={Common.url() + "packages"} component={Packages} />
+                <Route exact path={Common.url() + "contact"} component={Contact} />
                 <PrivateRoute path={Common.url() + "checkout"} component={Checkout} />
                 <Route path='*' exact component={NotFound} />
               </Switch>

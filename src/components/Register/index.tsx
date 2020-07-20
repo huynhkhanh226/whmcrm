@@ -3,11 +3,11 @@ import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { IStoreState } from '../../reducers';
 import { IPackage, getPackages } from '../../actions';
-import { RouteComponentProps, Redirect } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { FormGroup, Label, Input, Col, Container, Row, Button } from 'reactstrap';
+import { FormGroup, Label, Input, Col, Container, Row } from 'reactstrap';
 
 export interface IParam {
 
@@ -46,12 +46,9 @@ interface IState {
 
 }
 
-interface IRedirect {
-    redirect: any,
-    error: string
-}
 
-class Login extends Component<MergedProps, IState> {
+
+class Register extends Component<MergedProps, IState> {
     state = {}
 
     componentDidMount() {
@@ -68,36 +65,35 @@ class Login extends Component<MergedProps, IState> {
                 .min(2, 'Too Short!')
                 .max(256, 'Tối đa 256 ký tự')
                 .required('Vui lòng nhập password'),
+            email: Yup.string()
+                .email('Email không hợp lệ')
+                .required('Vui lòng nhập email'),
+            mobile: Yup.string()
+                .min(2, 'Too Short!')
+                .max(256, 'Tối đa 256 ký tự')
+                .required('Vui lòng nhập mobile'),
         });
-
-        const { location } = this.props;
-        const previousState = location.state as IRedirect;
-
-        if (localStorage.getItem("isAuth")) {
-            return <Redirect to={{ pathname: '/' }} />;
-        }
-
         return (
             <div className={'package-container'}>
                 <Container className={"width-450"}>
                     <Row>
                         <Col xl={12}>
-                            <h1>ĐĂNG NHẬP</h1>
+                            <h1>THÔNG TIN ĐĂNG KÝ</h1>
                             <Formik
                                 initialValues={{
                                     username: '',
                                     password: '',
+                                    email: '',
+                                    mobile: '',
                                 }}
                                 validationSchema={validationSchema}
                                 onSubmit={values => {
                                     // same shape as initial values
                                     console.log(values);
-                                    localStorage.setItem("isAuth", "true");
-                                    window.location.href = (previousState && previousState.redirect ? previousState.redirect.pathname : "/")
-
                                 }}
                             >
                                 {({ errors, touched }) => (
+
                                     <Form>
                                         <FormGroup>
                                             <Label for="username">Tên đăng nhập <sup className={'text-red'}>(*)</sup></Label>
@@ -113,7 +109,22 @@ class Login extends Component<MergedProps, IState> {
                                                 <div className={'text-red'}>{errors.password}</div>
                                             ) : null}
                                         </FormGroup>
-                                        <Button type={'submit'} className={"btn btn-primary"}>Đăng Nhập</Button>
+                                        <FormGroup>
+                                            <Label for="email">Email <sup className={'text-red'}>(*)</sup></Label>
+                                            <Field name="email" className={"form-control"} />
+                                            {errors.email && touched.email ? (
+                                                <div className={'text-red'}>{errors.email}</div>
+                                            ) : null}
+                                        </FormGroup>
+                                        <FormGroup>
+                                            <Label for="mobile">Mobile <sup className={'text-red'}>(*)</sup></Label>
+                                            <Field name="mobile" className={"form-control"} />
+                                            {errors.mobile && touched.mobile ? (
+                                                <div className={'text-red'}>{errors.mobile}</div>
+                                            ) : null}
+                                        </FormGroup>
+
+                                        <button type="submit" className={"btn btn-primary"}>Đăng Ký</button>
                                     </Form>
 
                                 )}
@@ -125,4 +136,4 @@ class Login extends Component<MergedProps, IState> {
         )
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Register)

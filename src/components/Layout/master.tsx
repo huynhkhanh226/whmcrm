@@ -19,7 +19,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     padding: 15px;
-    margin-top: 56px;
+    margin-top: 72px;
 `;
 
 interface Props {
