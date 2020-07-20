@@ -9,6 +9,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { FormGroup, Label, Input, Col, Container, Row } from 'reactstrap';
 import { IResponseRegister, register, IUser } from '../../actions/users';
+import config from '../../config/Config';
 
 export interface IParam {
 
@@ -26,7 +27,7 @@ const mapStateToProps = (state: IStoreState): { packages: IPackage[] } => {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<IStoreState, void, Action>) => ({
     ...{
-        register: (user: IUser, cb: (res: IResponseRegister)=>void) => dispatch(register(user, cb)),
+        register: (user: IUser, cb: (res: IResponseRegister) => void) => dispatch(register(user, cb)),
     }
 
 });
@@ -95,11 +96,14 @@ class Register extends Component<MergedProps, IState> {
                                 onSubmit={values => {
                                     // same shape as initial values
                                     console.log(values);
-                                    this.props.register(values, (res)=>{
-                                        if (res.code == 200){
-                                            
+                                    this.props.register(values, (res) => {
+                                        if (res.code == 200) {
+                                            config.popup.show("YESNO", res.message, () => {
+                                                window.location.href = "/login"
+                                            });
                                         }else{
-
+                                            config.popup.show("YESNO", res.message, () => {
+                                            });
                                         }
                                     })
                                 }}
@@ -144,7 +148,7 @@ class Register extends Component<MergedProps, IState> {
                         </Col>
                     </Row>
                 </Container>
-                
+
             </div>
         )
     }

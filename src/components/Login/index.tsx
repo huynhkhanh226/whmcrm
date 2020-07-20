@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { FormGroup, Label, Input, Col, Container, Row, Button } from 'reactstrap';
-import { IResponseRegister, IUser, register } from '../../actions/users';
+import { IResponseRegister, IUser, register, IResponseProfile } from '../../actions/users';
 import config from '../../config/Config';
 
 export interface IParam {
@@ -27,7 +27,7 @@ const mapStateToProps = (state: IStoreState): { packages: IPackage[] } => {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<IStoreState, void, Action>) => ({
     ...{
-        register: (user: IUser, cb: (res: IResponseRegister)=>void) => dispatch(register(user, cb)),
+        login: (inputs: {username: string, password: string}, cb: (res: IResponseProfile)=>void) => dispatch(login(inputs, cb)),
     }
 
 });
@@ -96,8 +96,19 @@ class Login extends Component<MergedProps, IState> {
                                 onSubmit={values => {
                                     // same shape as initial values
                                     console.log(values);
-                                    alert("sđsfsdf")
-                                    config.popup.show("INFO","DB_CRM_SERVER is error");
+                                    this.props.login(values, (res) => {
+                                        if (res.code == 200) {
+                                            config.popup.show("YES", res.message, () => {
+                                                window.location.href = (previousState && previousState.redirect ? previousState.redirect.pathname : "/")
+                                            });
+                                        }else{
+                                            config.popup.show("YESNO", res.message, () => {
+                                            });
+                                        }
+                                    })
+                                    //alert("sđsfsdf");
+                                    console.log(config);
+                                    //config.popup.show("YESNO","DB_CRM_SERVER is error");
                                     //localStorage.setItem("isAuth", "true");
                                     //window.location.href = (previousState && previousState.redirect ? previousState.redirect.pathname : "/")
 

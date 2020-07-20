@@ -86,9 +86,10 @@ export default class App extends Component<IProps, IState> {
                 <Route path='*' exact component={NotFound} />
               </Switch>
             </Suspense>
-            <Popup ref={(ref)=>config.popup = ref} />
+            
           </Layout>
         </Router>
+        <Popup ref={(ref)=>config.popup = ref} />
       </div>
     )
   }

@@ -27,7 +27,6 @@ export interface IResponseRegister{
 }
 
 export const register = (data: IUser, cb: (res : IResponseRegister)=>void) => {
-
     return async (dispatch: Dispatch) => {
         const url = "http://127.0.0.1:1337/api/v1/users/register";
         dispatch<IRequestRegisterAction>({
@@ -40,6 +39,44 @@ export const register = (data: IUser, cb: (res : IResponseRegister)=>void) => {
 
         if (cb){
             cb(response.data);
+        }
+    }
+}
+
+export interface IRequestProfileAction {
+    type: ActionTypes.USER_PROFILE_REQUEST,
+}
+
+export interface IResponseProfileAction {
+    type: ActionTypes.USER_PROFILE_RESPONSE,
+    payload: IUser
+}
+
+export interface IResponseProfile{
+    code: number | string,
+    message: string,
+    data: IUser
+}
+
+
+export const login = (inputs: {
+    username: string,
+    password: string,
+}, cb: (res : any)=>void) => {
+    return async (dispatch: Dispatch) => {
+        const url = "http://127.0.0.1:1337/api/v1/users/register";
+        dispatch<IRequestProfileAction>({
+            type: ActionTypes.USER_PROFILE_REQUEST,
+        })
+        const response = await axios.post<IResponseProfile>(url, inputs);
+        console.log(response);
+        dispatch<IResponseProfileAction>({
+            type: ActionTypes.USER_PROFILE_RESPONSE,
+            payload: response.data.data as IUser
+        })
+
+        if (cb){
+            cb(response);
         }
     }
 }
