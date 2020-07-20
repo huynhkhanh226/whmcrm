@@ -8,7 +8,8 @@ import { history } from './helpers/history';
 import { Common } from './helpers';
 import Loading from './components/Loading';
 import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
-//import config from './config/Config';
+import Popup from './components/popup/popup';
+import config from './config/Config';
 
 const Login = React.lazy(() =>
   import(/* webpackChunkName: "login" */ "./components/Login")
@@ -85,6 +86,7 @@ export default class App extends Component<IProps, IState> {
                 <Route path='*' exact component={NotFound} />
               </Switch>
             </Suspense>
+            <Popup ref={(ref)=>config.popup = ref} />
           </Layout>
         </Router>
       </div>

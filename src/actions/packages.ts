@@ -47,7 +47,7 @@ export interface IRequestPackageAction {
 }
 
 export interface IResponsePackageAction {
-    type: ActionTypes.GET_PACKAGE_REPONSE,
+    type: ActionTypes.GET_PACKAGE_RESPONSE,
     payload: IPackage[]
 }
 
@@ -115,7 +115,7 @@ export const getPackages = () => {
         const response = await axios.post(url);
         //convert data
         dispatch<IResponsePackageAction>({
-            type: ActionTypes.GET_PACKAGE_REPONSE,
+            type: ActionTypes.GET_PACKAGE_RESPONSE,
             payload: convertPackages(response.data.data)
         })
     }
@@ -133,7 +133,7 @@ export interface IResponseOrderPackage {
 }
 
 export interface IResponseOrderPackageAction {
-    type: ActionTypes.ORDER_PACKAGE_REPONSE,
+    type: ActionTypes.ORDER_PACKAGE_RESPONSE,
     payload: IResponseOrderPackage
 }
 
@@ -155,7 +155,7 @@ export const order = (user: IUser, pkg: IPackage & { domain: string }, cb: (res:
         const response = await axios.post<IResponseOrderPackage>(url, body);
         //convert data
         dispatch<IResponseOrderPackageAction>({
-            type: ActionTypes.GET_PACKAGE_REPONSE,
+            type: ActionTypes.ORDER_PACKAGE_RESPONSE,
             payload: response.data
         })
 

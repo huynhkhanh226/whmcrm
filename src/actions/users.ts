@@ -13,26 +13,34 @@ export interface IUser {
     mobile: string,
 }
 
-export interface IResponse{
-    code: number | string,
-    data: IUser 
-}
-
 export interface IRequestRegisterAction {
     type: ActionTypes.USER_REGISTER_REQUEST,
-    payload: IResponse | undefined
 }
 
 export interface IResponseRegisterAction {
-    type: ActionTypes.GET_PACKAGE_REPONSE,
-    payload: IUser
+    type: ActionTypes.USER_REGISTER_RESPONSE,
 }
 
-export const register = (cb: (res : IResponse)=>void) => {
+export interface IResponseRegister{
+    code: number | string,
+    message: string,
+}
+
+export const register = (data: IUser, cb: (res : IResponseRegister)=>void) => {
 
     return async (dispatch: Dispatch) => {
         const url = "http://127.0.0.1:1337/api/v1/users/register";
-        const response = await axios.post<IResponse>(url);
+        dispatch<IRequestRegisterAction>({
+            type: ActionTypes.USER_REGISTER_REQUEST,
+        })
+        const response = await axios.post<IResponseRegister>(url, data);
+        dispatch<IRequestRegisterAction>({
+            type: ActionTypes.USER_REGISTER_REQUEST,
+        })
+
+        if (cb){
+            cb(response.data);
+        }
     }
 }
 

@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { FormGroup, Label, Input, Col, Container, Row } from 'reactstrap';
+import { IResponseRegister, register, IUser } from '../../actions/users';
 
 export interface IParam {
 
@@ -25,7 +26,7 @@ const mapStateToProps = (state: IStoreState): { packages: IPackage[] } => {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<IStoreState, void, Action>) => ({
     ...{
-        getPackages: () => dispatch(getPackages()),
+        register: (user: IUser, cb: (res: IResponseRegister)=>void) => dispatch(register(user, cb)),
     }
 
 });
@@ -43,13 +44,17 @@ const mergeProps = (
 type MergedProps = ReturnType<typeof mergeProps>;
 
 interface IState {
-
+    isOpen: boolean,
+    message: string,
 }
 
 
 
 class Register extends Component<MergedProps, IState> {
-    state = {}
+    state = {
+        isOpen: false,
+        message: ""
+    }
 
     componentDidMount() {
         //this.props.getPackages();
@@ -90,6 +95,13 @@ class Register extends Component<MergedProps, IState> {
                                 onSubmit={values => {
                                     // same shape as initial values
                                     console.log(values);
+                                    this.props.register(values, (res)=>{
+                                        if (res.code == 200){
+                                            
+                                        }else{
+
+                                        }
+                                    })
                                 }}
                             >
                                 {({ errors, touched }) => (
@@ -132,6 +144,7 @@ class Register extends Component<MergedProps, IState> {
                         </Col>
                     </Row>
                 </Container>
+                
             </div>
         )
     }

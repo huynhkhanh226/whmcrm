@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { FormGroup, Label, Input, Col, Container, Row, Button } from 'reactstrap';
+import { IResponseRegister, IUser, register } from '../../actions/users';
+import config from '../../config/Config';
 
 export interface IParam {
 
@@ -25,7 +27,7 @@ const mapStateToProps = (state: IStoreState): { packages: IPackage[] } => {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<IStoreState, void, Action>) => ({
     ...{
-        getPackages: () => dispatch(getPackages()),
+        register: (user: IUser, cb: (res: IResponseRegister)=>void) => dispatch(register(user, cb)),
     }
 
 });
@@ -43,7 +45,7 @@ const mergeProps = (
 type MergedProps = ReturnType<typeof mergeProps>;
 
 interface IState {
-
+    isOpen: boolean
 }
 
 interface IRedirect {
@@ -52,7 +54,9 @@ interface IRedirect {
 }
 
 class Login extends Component<MergedProps, IState> {
-    state = {}
+    state = {
+        isOpen: false
+    }
 
     componentDidMount() {
         //this.props.getPackages();
@@ -92,13 +96,15 @@ class Login extends Component<MergedProps, IState> {
                                 onSubmit={values => {
                                     // same shape as initial values
                                     console.log(values);
-                                    localStorage.setItem("isAuth", "true");
-                                    window.location.href = (previousState && previousState.redirect ? previousState.redirect.pathname : "/")
+                                    alert("sđsfsdf")
+                                    config.popup.show("INFO","DB_CRM_SERVER is error");
+                                    //localStorage.setItem("isAuth", "true");
+                                    //window.location.href = (previousState && previousState.redirect ? previousState.redirect.pathname : "/")
 
                                 }}
                             >
                                 {({ errors, touched }) => (
-                                    <Form>
+                                    <Form >
                                         <FormGroup>
                                             <Label for="username">Tên đăng nhập <sup className={'text-red'}>(*)</sup></Label>
                                             <Field name="username" className={"form-control"} />
@@ -121,6 +127,7 @@ class Login extends Component<MergedProps, IState> {
                         </Col>
                     </Row>
                 </Container>
+               
             </div>
         )
     }
