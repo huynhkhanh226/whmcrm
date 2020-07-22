@@ -5,7 +5,7 @@ export const packageReducer = (state: IPackage[] = [],
     switch (action.type) {
         case ActionTypes.GET_PACKAGE_REQUEST:
             return [];
-        case ActionTypes.GET_PACKAGE_REPONSE:
+        case ActionTypes.GET_PACKAGE_RESPONSE:
             return action.payload
         default:
             return state;

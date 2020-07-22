@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { FormGroup, Label, Input, Col, Container, Row, Button } from 'reactstrap';
-import { IResponseRegister, IUser, register, IResponseProfile } from '../../actions/users';
+import { IResponseRegister, IUser, register, IResponseProfile, login } from '../../actions/users';
 import config from '../../config/Config';
 
 export interface IParam {
@@ -98,6 +98,8 @@ class Login extends Component<MergedProps, IState> {
                                     console.log(values);
                                     this.props.login(values, (res) => {
                                         if (res.code == 200) {
+                                            localStorage.setItem("user", JSON.stringify(res.data));
+                                            localStorage.setItem("isAuth", "true");
                                             config.popup.show("YES", res.message, () => {
                                                 window.location.href = (previousState && previousState.redirect ? previousState.redirect.pathname : "/")
                                             });
@@ -106,12 +108,6 @@ class Login extends Component<MergedProps, IState> {
                                             });
                                         }
                                     })
-                                    //alert("sđsfsdf");
-                                    console.log(config);
-                                    //config.popup.show("YESNO","DB_CRM_SERVER is error");
-                                    //localStorage.setItem("isAuth", "true");
-                                    //window.location.href = (previousState && previousState.redirect ? previousState.redirect.pathname : "/")
-
                                 }}
                             >
                                 {({ errors, touched }) => (

@@ -98,7 +98,7 @@ class Register extends Component<MergedProps, IState> {
                                     console.log(values);
                                     this.props.register(values, (res) => {
                                         if (res.code == 200) {
-                                            config.popup.show("YESNO", res.message, () => {
+                                            config.popup.show("YES", res.message, () => {
                                                 window.location.href = "/login"
                                             });
                                         }else{

@@ -12,6 +12,7 @@ import {
 } from 'reactstrap';
 import Loading from '../Loading';
 import { Common } from '../../helpers';
+import { addCart } from '../../actions/cart';
 export interface IParam {
 
 }
@@ -20,15 +21,17 @@ interface IProps extends RouteComponentProps<IParam> {
 
 }
 
-const mapStateToProps = (state: IStoreState): { packages: IPackage[] } => {
+const mapStateToProps = (state: IStoreState): { packages: IPackage[], cart: IPackage[],  } => {
     return {
         packages: state.packages,
+        cart: state.cart,
     }
 }
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<IStoreState, void, Action>) => ({
     ...{
         getPackages: () => dispatch(getPackages()),
+        addCart: (pkg: IPackage, cb: () => void) => dispatch(addCart(pkg, cb)),
     }
 
 });
@@ -83,7 +86,9 @@ class Packages extends Component<MergedProps, IState> {
                                     <CardText>Max SQL : <strong>{item.maxSQL}</strong></CardText>
                                     <CardText>Price : <strong className={"text-red"}>{item.price} VND/Tháng</strong></CardText>
                                     { localStorage.getItem("isAuth") == "true"
-                                        && <Button className={'margin-right-15 bg-primary'}><RouterLink to={{ pathname: Common.url() + "checkout", state: { ...item } }} className={'nav-link'}>Đăng Ký</RouterLink></Button>
+                                        && <Button className={'margin-right-15 bg-primary'} onClick={()=>this.props.addCart(item, ()=>{
+                                            console.log(this.props.cart);
+                                        })}>Đăng Ký</Button>
                                     }
                                     { localStorage.getItem("isAuth") != "true"
                                         && <Button className={'margin-right-15 bg-primary'}><RouterLink to={{ pathname: Common.url() + "login", state: { pass: "some data" } }} className={'nav-link'}>Đăng Nhập Để Đăng Ký</RouterLink></Button>

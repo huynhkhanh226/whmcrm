@@ -54,17 +54,17 @@ export interface IResponseProfileAction {
 
 export interface IResponseProfile{
     code: number | string,
-    message: string,
-    data: IUser
+    message?: string,
+    data?: IUser
 }
 
 
 export const login = (inputs: {
     username: string,
     password: string,
-}, cb: (res : any)=>void) => {
+}, cb: (res : IResponseProfile)=>void) => {
     return async (dispatch: Dispatch) => {
-        const url = "http://127.0.0.1:1337/api/v1/users/register";
+        const url = "http://127.0.0.1:1337/api/v1/users/login";
         dispatch<IRequestProfileAction>({
             type: ActionTypes.USER_PROFILE_REQUEST,
         })
@@ -76,7 +76,7 @@ export const login = (inputs: {
         })
 
         if (cb){
-            cb(response);
+            cb(response.data);
         }
     }
 }

@@ -62,12 +62,8 @@ class Checkout extends Component<MergedProps, IState> {
 
     render() {
         const { location, order } = this.props;
-        const profile = {
-            username: "raymond",
-            password: "123",
-            email: "raymond@gmail.com",
-            mobile: " 0938746772"
-        } as IUser
+        const user = localStorage.getItem("user");
+        const profile = user && (JSON.parse(user) as IUser)
         const productionItem = { ...location.state, domain: "vndevops.com" } as IPackage & { domain: string };
         return (
             <div className={'package-container'}>
@@ -80,9 +76,9 @@ class Checkout extends Component<MergedProps, IState> {
                                     <Card>
                                         <CardBody>
                                             <CardTitle>Thông Tin chung</CardTitle>
-                                            <CardTitle>Người đặt : <strong className={"text-primary"}>{profile.username}</strong></CardTitle>
-                                            <CardTitle>Email : <strong className={"text-primary"}>{profile.email}</strong></CardTitle>
-                                            <CardTitle>Mobile : <strong className={"text-primary"}>{profile.mobile}</strong></CardTitle>
+                                            <CardTitle>Người đặt : <strong className={"text-primary"}>{profile && profile.username}</strong></CardTitle>
+                                            <CardTitle>Email : <strong className={"text-primary"}>{profile && profile.email}</strong></CardTitle>
+                                            <CardTitle>Mobile : <strong className={"text-primary"}>{profile && profile.mobile}</strong></CardTitle>
                                         </CardBody>
                                     </Card>
                                     <Card>
@@ -99,7 +95,7 @@ class Checkout extends Component<MergedProps, IState> {
                                         </CardBody>
                                     </Card>
                                     <div style={{ margin: 5 }} className={"pull-right"} onClick={() => {
-                                        order(profile, productionItem, (res: IResponseOrderPackage) => {
+                                        profile && order(profile, productionItem, (res: IResponseOrderPackage) => {
                                             console.log(res);
                                             if (res.code == 200) {
                                                 this.setState({
@@ -124,9 +120,14 @@ class Checkout extends Component<MergedProps, IState> {
                             }
 
                             {this.state.isEmpty &&
-                                <Alert color="primary">
-                                    Chúc mừng bạn đã đặt hàng thành công
+                                <>
+                                    <Alert color="primary">
+                                        Chúc mừng bạn đã đặt hàng thành công
                                 </Alert>
+                                    <Alert color="primary">
+                                        Một email đã được gửi đến bạn
+                                </Alert>
+                                </>
                             }
                         </Col>
                     </Row>
