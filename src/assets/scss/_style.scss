@@ -287,4 +287,30 @@ table {
   .cart:hover {
     .cart-content {display: flex;}
   }
+
+  .navbar{
+    box-shadow: inset 0 0 3px #a9ff00;
+  }
+
+  .cart-buton button{
+      background-color: transparent;
+      color: orangered;
+      border: none;
+      :hover{
+        background-color: transparent;
+        color: orangered;
+        border: none;
+      }
+      :focus{
+        background-color: transparent;
+        color: orangered;
+        border: none;
+      }
+      &.btn-secondary.dropdown-toggle {
+        color: orangered;
+        background-color: transparent;
+        border: none;
+    }
+  }
+
   

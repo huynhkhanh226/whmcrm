@@ -31,7 +31,6 @@ export const addCart = (pkg: IPackage, cb: (res: { status: string, message: stri
             type: ActionTypes.CART_ADD,
             payload: pkg
         })
-
         if (cb)
             cb(
                 {
@@ -48,7 +47,6 @@ export const removePackage = (pkg: IPackage, cb: (res: { status: string, message
             type: ActionTypes.CART_REMOVE_ITEM,
             payload: pkg
         })
-
         if (cb)
             cb(
                 {
@@ -59,12 +57,11 @@ export const removePackage = (pkg: IPackage, cb: (res: { status: string, message
     }
 }
 
-export const removeAllPackage = (pkg: IPackage, cb: (res: { status: string, message: string }) => void) => {
+export const removeAllPackage = (cb: (res: { status: string, message: string }) => void) => {
     return async (dispatch: Dispatch) => {
         dispatch<ICartRemoveAllAction>({
             type: ActionTypes.CART_REMOVE_ALL,
         })
-
         if (cb)
             cb(
                 {

@@ -13,6 +13,9 @@ import {
 import Loading from '../Loading';
 import { Common } from '../../helpers';
 import { addCart } from '../../actions/cart';
+import * as _ from 'lodash';
+import config from '../../config/Config';
+
 export interface IParam {
 
 }
@@ -21,7 +24,7 @@ interface IProps extends RouteComponentProps<IParam> {
 
 }
 
-const mapStateToProps = (state: IStoreState): { packages: IPackage[], cart: IPackage[],  } => {
+const mapStateToProps = (state: IStoreState): { packages: IPackage[], cart: IPackage[], } => {
     return {
         packages: state.packages,
         cart: state.cart,
@@ -32,6 +35,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<IStoreState, void, Action>) 
     ...{
         getPackages: () => dispatch(getPackages()),
         addCart: (pkg: IPackage, cb: () => void) => dispatch(addCart(pkg, cb)),
+
     }
 
 });
@@ -58,11 +62,23 @@ class Packages extends Component<MergedProps, IState> {
     componentDidMount() {
         this.props.getPackages();
     }
+
+    onRegister = (item: IPackage) => {
+        if (_.indexOf(this.props.cart, item) >= 0) {
+            config.popup.show("YES", "Bạn đã thêm sản phẩm này vô giỏ hàng rồi", () => {
+            });
+        } else {
+            this.props.addCart(item, () => {
+                console.log(this.props.cart);
+            })
+        }
+    }
+
     render() {
         const { packages } = this.props;
         return (
             <div className={'package-container'}>
-                <h1>Hosting Linux</h1>
+                {packages && <h1 className={"fade-in"}>Hosting Linux</h1>}
                 <div className={'package-list'}>
                     {packages && packages.map((item) => (
                         <div className={"card-item-container fade-in"} key={item.packageName}>
@@ -85,15 +101,13 @@ class Packages extends Component<MergedProps, IState> {
                                     <CardText>Max Parked Domain : <strong>{item.maxPark}</strong></CardText>
                                     <CardText>Max SQL : <strong>{item.maxSQL}</strong></CardText>
                                     <CardText>Price : <strong className={"text-red"}>{item.price} VND/Tháng</strong></CardText>
-                                    { localStorage.getItem("isAuth") == "true"
-                                        && <Button className={'margin-right-15 bg-primary'} onClick={()=>this.props.addCart(item, ()=>{
-                                            console.log(this.props.cart);
-                                        })}>Đăng Ký</Button>
+                                    {localStorage.getItem("isAuth") == "true"
+                                        && <Button className={'margin-right-15 bg-primary'} onClick={() => this.onRegister(item)}>Đăng Ký</Button>
                                     }
-                                    { localStorage.getItem("isAuth") != "true"
+                                    {localStorage.getItem("isAuth") != "true"
                                         && <Button className={'margin-right-15 bg-primary'}><RouterLink to={{ pathname: Common.url() + "login", state: { pass: "some data" } }} className={'nav-link'}>Đăng Nhập Để Đăng Ký</RouterLink></Button>
                                     }
-                                    
+
                                     <Button className={'bg-warning'}>Chi tiết</Button>
                                 </CardBody>
 
@@ -101,7 +115,7 @@ class Packages extends Component<MergedProps, IState> {
                         </div>
                     ))}
                     {
-                        !packages && <Loading/>
+                        !packages && <Loading />
                     }
                 </div>
             </div>
