@@ -7,7 +7,7 @@ import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { FormGroup, Label, Input, Col, Container, Row, Button, Card, CardBody, CardTitle, CardSubtitle, CardText, Alert } from 'reactstrap';
+import { FormGroup, Label, Input, Col, Container, Row, Button, Card, CardBody, CardTitle, CardSubtitle, CardText, Alert, ListGroup, ListGroupItem, Table } from 'reactstrap';
 import { IUser } from '../../actions/users';
 import { userInfo } from 'os';
 
@@ -19,9 +19,10 @@ interface IProps extends RouteComponentProps<IParam> {
 
 }
 
-const mapStateToProps = (state: IStoreState): { packages: IPackage[] } => {
+const mapStateToProps = (state: IStoreState): { packages: IPackage[], cart: IPackage[] } => {
     return {
         packages: state.packages,
+        cart: state.cart,
     }
 }
 
@@ -61,7 +62,7 @@ class Checkout extends Component<MergedProps, IState> {
     }
 
     render() {
-        const { location, order } = this.props;
+        const { location, order, cart } = this.props;
         const user = localStorage.getItem("user");
         const profile = user && (JSON.parse(user) as IUser)
         const productionItem = { ...location.state, domain: "vndevops.com" } as IPackage & { domain: string };
@@ -76,6 +77,7 @@ class Checkout extends Component<MergedProps, IState> {
                                     <Card>
                                         <CardBody>
                                             <CardTitle>Thông Tin chung</CardTitle>
+
                                             <CardTitle>Người đặt : <strong className={"text-primary"}>{profile && profile.username}</strong></CardTitle>
                                             <CardTitle>Email : <strong className={"text-primary"}>{profile && profile.email}</strong></CardTitle>
                                             <CardTitle>Mobile : <strong className={"text-primary"}>{profile && profile.mobile}</strong></CardTitle>
@@ -84,8 +86,27 @@ class Checkout extends Component<MergedProps, IState> {
                                     <Card>
                                         <CardBody>
                                             <CardTitle>Thông Tin Sản Phẩm</CardTitle>
-                                            <CardTitle>Tên gói : <strong className={"text-primary"}>{productionItem.packageName}</strong></CardTitle>
-                                            <CardTitle>Đơn giá : <strong className={"text-primary"}>{productionItem.price}</strong></CardTitle>
+                                            <Table>
+                                                <thead>
+                                                    <tr>
+                                                        <td>Mã Gói</td>
+                                                        <td>Tên Gói</td>
+                                                        <td>Đơn Giá</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {cart.map((pkg: IPackage) => (
+
+                                                        <tr>
+                                                            <td>{pkg.packageID}</td>
+                                                            <td>{pkg.packageName}</td>
+                                                            <td>{pkg.price}</td>
+                                                        </tr>
+                                                    ))
+                                                    }
+                                                </tbody>
+                                            </Table>
+
                                         </CardBody>
                                     </Card>
                                     <Card>
@@ -109,7 +130,7 @@ class Checkout extends Component<MergedProps, IState> {
                                             }
 
                                         })
-                                    }}><Button>Đặt Hàng</Button></div>
+                                    }}><Button className={"btn btn-primary"}>Đặt Hàng</Button></div>
                                 </div>
                             }
 

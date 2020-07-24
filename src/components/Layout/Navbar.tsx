@@ -20,7 +20,7 @@ import {
 } from 'reactstrap';
 import { Common } from '../../helpers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faUnlock, faBook, faPager, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faUnlock, faBook, faPager, faShoppingCart, faIcons } from '@fortawesome/free-solid-svg-icons'
 import { IStoreState } from '../../reducers';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
@@ -77,28 +77,31 @@ const NavBar: React.FC<MergedProps> = ({ cart, removePackage, removeAllPackage }
 
     const toggleCart = () => setDropdownOpen(prevState => !prevState);
 
-    const onRemoveCart = (item: IPackage) => { 
-        removePackage(item, (res: any)=>{ 
+    const onRemoveCart = (item: IPackage) => {
+        removePackage(item, (res: any) => {
             console.log(cart);
         })
     }
 
-    const onRemoveAllCart = () => { 
-        removeAllPackage((res: any)=>{ 
+    const onRemoveAllCart = () => {
+        removeAllPackage((res: any) => {
             console.log(cart);
         })
     }
 
     return (
         <DivNavBar>
-            <Navbar color="light" fixed="top" light expand="md">
-                <RouterLink to={{ pathname: Common.url() + "", state: { pass: "some data" } }} className={'nav-link'}><strong>VNDEVHOST</strong></RouterLink>
+            <Navbar color="light" fixed="top" light expand="md" className={"fade-in"}>
+                <RouterLink to={{ pathname: Common.url() + "", state: { pass: "some data" } }} className={'text-company'}><strong>DEV HOSTING</strong></RouterLink>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto text-bold" navbar>
-                        <RouterLink to={{ pathname: Common.url() + "packages", state: { pass: "some data" } }} className={'nav-link'}><FontAwesomeIcon icon={faPager} className={"margin-right-5"} />Hosting Linux</RouterLink>
-                        <RouterLink to={{ pathname: Common.url() + "contact", state: { pass: "some data" } }} className={'nav-link'}><FontAwesomeIcon icon={faBook} className={"margin-right-5"} />Liên Hệ</RouterLink>
+                        <RouterLink to={{ pathname: Common.url() + "packages", state: { pass: "some data" } }} className={'nav-link'}><FontAwesomeIcon icon={faIcons} className={"margin-right-5 text-red"} />Hosting Linux</RouterLink>
+                        <RouterLink to={{ pathname: Common.url() + "seo", state: { pass: "some data" } }} className={'nav-link'}><FontAwesomeIcon icon={faIcons} className={"margin-right-5 text-primary"} />SEO</RouterLink>
+                        <RouterLink to={{ pathname: Common.url() + "design", state: { pass: "some data" } }} className={'nav-link'}><FontAwesomeIcon icon={faIcons} className={"margin-right-5 text-warning"} />Thiết Kế Web</RouterLink>
+                        <RouterLink to={{ pathname: Common.url() + "contact", state: { pass: "some data" } }} className={'nav-link'}><FontAwesomeIcon icon={faBook} className={"margin-right-5 text-primary"} />Liên Hệ</RouterLink>
                     </Nav>
+
                     {localStorage.getItem("isAuth") !== "true" &&
                         < NavbarText className={'pointer text-bold margin-right-15'}>
                             <Button>
@@ -107,42 +110,43 @@ const NavBar: React.FC<MergedProps> = ({ cart, removePackage, removeAllPackage }
                         </NavbarText>
                     }
                     {cart.length > 0 &&
-                        <NavbarText className={"margin-right-15"}>
-                            <Dropdown isOpen={dropdownOpen} toggle={toggleCart} className={"cart-buton"}>
-                                <DropdownToggle caret>
-                                    {localStorage.getItem("isAuth") === "true"
-                                        && <span>
-                                            <FontAwesomeIcon icon={faShoppingCart} className={"margin-right-5"} />Giỏ hàng
-                                            </span>
-                                    }
+                        <NavbarText>
+                            <UncontrolledDropdown nav inNavbar className={"cart-button"}>
+                                <DropdownToggle nav caret>
+                                <FontAwesomeIcon icon={faShoppingCart} className={"margin-right-5 text-warning"} />Giỏ hàng
                                 </DropdownToggle>
-                                <DropdownMenu>
-                                        <ListGroup>
-                                            {
-                                                cart.map((item: IPackage) => (
-                                                    <div key={item.packageName} onClick={()=>onRemoveCart(item)}>
-                                                        <DropdownItem ><span className={"margin-right-15"}>{item.packageName}</span><a  className={"cart-button"}>x</a></DropdownItem>
-                                                    </div>
-                                                ))
-                                            }
-                                            <DropdownItem key={"001"} divider />
-                                            <DropdownItem key={"002"} className={"text-left"}><RouterLink to={{ pathname: Common.url() + "checkout", state: { pass: "some data" } }} className={'nav-link'}>Thanh Toán</RouterLink></DropdownItem>
-                                            <DropdownItem key={"003"} divider />
-                                            <DropdownItem key={"004"} className={"text-left"}><a onClick={() => onRemoveAllCart()}>Xoá tất cả</a></DropdownItem>
-                                        </ListGroup>
+                                <DropdownMenu right>
+                                        {
+                                            cart.map((item: IPackage) => (
+                                                <div key={item.packageName} onClick={() => onRemoveCart(item)}>
+                                                    <DropdownItem>
+                                                        {item.packageName}
+                                                    </DropdownItem>
+                                                    <DropdownItem divider />
+                                                </div>
+                                            ))
+                                        }
+                                    <DropdownItem>
+                                        <RouterLink to={{ pathname: Common.url() + "checkout", state: { pass: "some data" } }} className={'nav-link'}>Thanh Toán</RouterLink>
+                                    </DropdownItem>
+                                    <DropdownItem divider />
+                                    <DropdownItem>
+                                    <a onClick={() => onRemoveAllCart()}>Xoá tất cả</a>
+                                    </DropdownItem>
+                                    
                                 </DropdownMenu>
-                            </Dropdown>
+                            </UncontrolledDropdown>
                         </NavbarText>
                     }
                     <NavbarText className={'pointer text-bold'}>
-                        <Button>
+                        <div className={"cart-button"}>
                             {localStorage.getItem("isAuth") === "true"
-                                && <RouterLink to={{ pathname: Common.url() + "", state: { pass: "some data" } }} onClick={() => { localStorage.removeItem("isAuth"); }} className={'nav-link'}><FontAwesomeIcon icon={faUnlock} className={"margin-right-5"} />Đăng xuất</RouterLink>
+                                && <RouterLink to={{ pathname: Common.url() + "", state: { pass: "some data" } }} onClick={() => { localStorage.removeItem("isAuth"); }} className={'nav-link'}><FontAwesomeIcon icon={faUnlock} className={"margin-right-5  text-red"} />Đăng xuất</RouterLink>
                             }
                             {localStorage.getItem("isAuth") !== "true"
                                 && <RouterLink to={{ pathname: Common.url() + "login", state: { pass: "some data" } }} onClick={() => { localStorage.removeItem("isAuth"); }} className={'nav-link'}><FontAwesomeIcon icon={faUnlock} className={"margin-right-5"} />Đăng nhập</RouterLink>
                             }
-                        </Button>
+                        </div>
                     </NavbarText>
                 </Collapse>
             </Navbar>
