@@ -27,6 +27,7 @@ import { connect } from 'react-redux';
 import { IPackage } from '../../actions/packages';
 import { Action } from 'redux';
 import { removePackage, removeAllPackage } from '../../actions';
+import {  toast } from 'react-toastify';
 
 const DivNavBar = styled.div`
     border-bottom: 1px solid #ededed;
@@ -73,19 +74,17 @@ const NavBar: React.FC<MergedProps> = ({ cart, removePackage, removeAllPackage }
 
     const toggle = () => setIsOpen(!isOpen);
 
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-
-    const toggleCart = () => setDropdownOpen(prevState => !prevState);
-
     const onRemoveCart = (item: IPackage) => {
         removePackage(item, (res: any) => {
             console.log(cart);
+            toast("Bạn đã xoá 1 sản phẩm ra khỏi giỏ hàng")
         })
     }
 
     const onRemoveAllCart = () => {
         removeAllPackage((res: any) => {
             console.log(cart);
+            
         })
     }
 
@@ -103,19 +102,19 @@ const NavBar: React.FC<MergedProps> = ({ cart, removePackage, removeAllPackage }
                     </Nav>
 
                     {localStorage.getItem("isAuth") !== "true" &&
-                        < NavbarText className={'pointer text-bold margin-right-15'}>
-                            <Button>
-                                <RouterLink to={{ pathname: Common.url() + "register", state: { pass: "some data" } }} onClick={() => { localStorage.removeItem("isAuth"); }} className={'nav-link'}><FontAwesomeIcon icon={faUser} className={"margin-right-5"} />Đăng ký</RouterLink>
-                            </Button>
+                        < NavbarText className={'pointer text-bold'}>
+                            <div className={"cart-button"}>
+                                <RouterLink to={{ pathname: Common.url() + "register", state: { pass: "some data" } }} onClick={() => { localStorage.removeItem("isAuth"); }} className={'nav-link '}><FontAwesomeIcon icon={faUser} className={"text-primary"} />Đăng ký</RouterLink>
+                            </div>
                         </NavbarText>
                     }
-                    {cart.length > 0 &&
+                    {
                         <NavbarText>
                             <UncontrolledDropdown nav inNavbar className={"cart-button"}>
                                 <DropdownToggle nav caret>
-                                <FontAwesomeIcon icon={faShoppingCart} className={"margin-right-5 text-warning"} />Giỏ hàng
+                                    <FontAwesomeIcon icon={faShoppingCart} className={"margin-right-5 text-warning"} /><sup>{cart.length || 0}</sup>
                                 </DropdownToggle>
-                                <DropdownMenu right>
+                                <DropdownMenu right className={"fade-in"}>
                                         {
                                             cart.map((item: IPackage) => (
                                                 <div key={item.packageName} onClick={() => onRemoveCart(item)}>

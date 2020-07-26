@@ -27,7 +27,7 @@ const mapStateToProps = (state: IStoreState): { packages: IPackage[] } => {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<IStoreState, void, Action>) => ({
     ...{
-        login: (inputs: {username: string, password: string}, cb: (res: IResponseProfile)=>void) => dispatch(login(inputs, cb)),
+        login: (inputs: { username: string, password: string }, cb: (res: IResponseProfile) => void) => dispatch(login(inputs, cb)),
     }
 
 });
@@ -103,15 +103,21 @@ class Login extends Component<MergedProps, IState> {
                                             config.popup.show("YES", res.message, () => {
                                                 window.location.href = (previousState && previousState.redirect ? previousState.redirect.pathname : "/")
                                             });
-                                        }else{
+                                        } else {
                                             config.popup.show("YESNO", res.message, () => {
                                             });
                                         }
                                     })
                                 }}
+
                             >
-                                {({ errors, touched }) => (
-                                    <Form >
+                                {({ errors, touched, handleSubmit }) => (
+                                    <Form onSubmit={handleSubmit}
+                                        onKeyDown={(e: React.KeyboardEvent) => {
+                                            if (e.key === 'Enter') {
+                                                handleSubmit();
+                                            }
+                                        }}>
                                         <FormGroup>
                                             <Label for="username">Tên đăng nhập <sup className={'text-red'}>(*)</sup></Label>
                                             <Field name="username" className={"form-control"} />
@@ -134,7 +140,7 @@ class Login extends Component<MergedProps, IState> {
                         </Col>
                     </Row>
                 </Container>
-               
+
             </div>
         )
     }

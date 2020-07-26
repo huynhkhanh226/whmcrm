@@ -2,15 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './Root';
 import * as serviceWorker from './serviceWorker';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import {reducers} from './reducers';
 import logger from './middlewares/logger';
-//import monitorReducerEnhancer from './enhancers/monitorReducer';
-const middlewares = applyMiddleware(thunk, logger);
-//const composedMiddlesAndEnhancers = compose(middlewares, monitorReducerEnhancer)
+import monitorReducerEnhancer from './enhancers/monitorReducer';
 
-const store = createStore(reducers, middlewares);
+const middlewares = applyMiddleware(thunk, logger);
+///const composedMiddlesAndEnhancers = compose(middlewares, monitorReducerEnhancer)
+
+const store = createStore(reducers,middlewares);
 //console.log(store);
 
 ReactDOM.render(<Root store={store} />, document.getElementById('root'));

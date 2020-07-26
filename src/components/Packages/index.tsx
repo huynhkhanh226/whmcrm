@@ -15,6 +15,7 @@ import { Common } from '../../helpers';
 import { addCart } from '../../actions/cart';
 import * as _ from 'lodash';
 import config from '../../config/Config';
+import { toast } from 'react-toastify';
 
 export interface IParam {
 
@@ -61,15 +62,17 @@ class Packages extends Component<MergedProps, IState> {
 
     componentDidMount() {
         this.props.getPackages();
+        
     }
+
 
     onRegister = (item: IPackage) => {
         if (_.indexOf(this.props.cart, item) >= 0) {
-            config.popup.show("YES", "Bạn đã thêm sản phẩm này vô giỏ hàng rồi", () => {
-            });
+            toast("Bạn đã thêm sản phẩm này vô giỏ hàng rồi");
         } else {
             this.props.addCart(item, () => {
                 console.log(this.props.cart);
+                toast("Sản phầm đã được thêm vào giỏ hàng");
             })
         }
     }
@@ -78,7 +81,7 @@ class Packages extends Component<MergedProps, IState> {
         const { packages } = this.props;
         return (
             <div className={'package-container'}>
-                {packages && <h1 className={"fade-in"}>Hosting Linux</h1>}
+                {packages && <h1 className={"fade-in text-center"}>Hosting Linux</h1>}
                 <div className={'package-list'}>
                     {packages && packages.map((item) => (
                         <div className={"card-item-container fade-in"} key={item.packageName}>
@@ -101,12 +104,7 @@ class Packages extends Component<MergedProps, IState> {
                                     <CardText>Max Parked Domain : <strong>{item.maxPark}</strong></CardText>
                                     <CardText>Max SQL : <strong>{item.maxSQL}</strong></CardText>
                                     <CardText>Price : <strong className={"text-red"}>{item.price} VND/Tháng</strong></CardText>
-                                    {localStorage.getItem("isAuth") == "true"
-                                        && <Button className={'margin-right-15 bg-primary'} onClick={() => this.onRegister(item)}>Đăng Ký</Button>
-                                    }
-                                    {localStorage.getItem("isAuth") != "true"
-                                        && <Button className={'margin-right-15 bg-primary'}><RouterLink to={{ pathname: Common.url() + "login", state: { pass: "some data" } }} className={'nav-link'}>Đăng Nhập Để Đăng Ký</RouterLink></Button>
-                                    }
+                                    <Button className={'margin-right-15 bg-primary'} onClick={() => this.onRegister(item)}>Đăng Ký</Button>
 
                                     <Button className={'bg-warning'}>Chi tiết</Button>
                                 </CardBody>

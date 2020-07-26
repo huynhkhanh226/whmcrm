@@ -2,7 +2,7 @@ import React, { } from 'react'
 import PropTypes from 'prop-types';
 import NavBar from './Navbar';
 import styled from "styled-components";
-
+import { ToastContainer } from 'react-toastify';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -31,6 +31,7 @@ export const Master: React.FC<Props> = ({ children }) => {
         <>
             <Wrapper>
                 <NavBar />
+                <ToastContainer />
                 <Container>{children}</Container>
             </Wrapper>
         </>
