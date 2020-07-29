@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 import Loading from '../Loading';
 import { Common } from '../../helpers';
-import { addCart } from '../../actions/cart';
+import { addCart, removePackage } from '../../actions/cart';
 import * as _ from 'lodash';
 import config from '../../config/Config';
 import { toast } from 'react-toastify';
@@ -36,6 +36,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<IStoreState, void, Action>) 
     ...{
         getPackages: () => dispatch(getPackages()),
         addCart: (pkg: IPackage, cb: () => void) => dispatch(addCart(pkg, cb)),
+        removePackage: (pkg: IPackage, cb: (res: any) => void) => dispatch(removePackage(pkg, cb)),
 
     }
 
@@ -62,13 +63,19 @@ class Packages extends Component<MergedProps, IState> {
 
     componentDidMount() {
         this.props.getPackages();
-        
+
     }
 
 
     onRegister = (item: IPackage) => {
         if (_.indexOf(this.props.cart, item) >= 0) {
-            toast("Bạn đã thêm sản phẩm này vô giỏ hàng rồi");
+            this.props.removePackage(item, (res)=>{
+                this.props.addCart(item, () => {
+                    console.log(this.props.cart);
+                    toast("Sản phầm đã được thêm vào giỏ hàng");
+                })
+            })
+            
         } else {
             this.props.addCart(item, () => {
                 console.log(this.props.cart);
@@ -83,7 +90,7 @@ class Packages extends Component<MergedProps, IState> {
             <div className={'package-container'}>
                 {packages && <h1 className={"fade-in text-center"}>Hosting Linux</h1>}
                 <div className={'package-list'}>
-                    {packages && packages.map((item) => (
+                    {packages && packages.map((item: IPackage & {months?: number|string}) => (
                         <div className={"card-item-container fade-in"} key={item.packageName}>
                             <Card key={item.packageName}>
                                 <CardBody>
@@ -104,9 +111,13 @@ class Packages extends Component<MergedProps, IState> {
                                     <CardText>Max Parked Domain : <strong>{item.maxPark}</strong></CardText>
                                     <CardText>Max SQL : <strong>{item.maxSQL}</strong></CardText>
                                     <CardText>Price : <strong className={"text-red"}>{item.price} VND/Tháng</strong></CardText>
+                                    <select className={'form-control form-group'} onChange={(e) =>item.months = e.target.value }>
+                                        <option value="3"> 3 Tháng = {3 * item.price}</option>
+                                        <option value="6">6 Tháng = {6 * item.price * 1000}VND</option>
+                                        <option value="12">12 Tháng = {12 * item.price * 1000}VND</option>
+                                        <option value="24">24 Tháng = {24 * item.price * 1000}VND</option>
+                                    </select>
                                     <Button className={'margin-right-15 bg-primary'} onClick={() => this.onRegister(item)}>Đăng Ký</Button>
-
-                                    <Button className={'bg-warning'}>Chi tiết</Button>
                                 </CardBody>
 
                             </Card>

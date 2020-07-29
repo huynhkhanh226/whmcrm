@@ -109,7 +109,7 @@ class Checkout extends Component<MergedProps, IState> {
                                             </thead>
                                             <tbody>
                                                 {cart.map((pkg: IPackage) => (
-                                                    <tr key={pkg.packageName}>
+                                                    <tr key={pkg.packageID}>
                                                         <td>{pkg.packageID}</td>
                                                         <td>{pkg.packageName}</td>
                                                         <td>{pkg.price * 12 * 1000}VND</td>
@@ -129,7 +129,28 @@ class Checkout extends Component<MergedProps, IState> {
                                         validationSchema={validationSchema}
                                         onSubmit={values => {
                                             // same shape as initial values
+
                                             console.log(values);
+                                            if (cart.length > 1) {
+                                                config.popup.show("YES", "Bạn chỉ được chọn một gói sản phẩm")
+                                            } else {
+                                                console.log(productionItem);
+                                                !productionItem && config.popup.show("YES", "Bạn cần chọn sản phẩm cần mua trước");
+                                                profile && order(profile, productionItem, (res: IResponseOrderPackage) => {
+                                                    console.log(productionItem);
+                                                    // if (res.code == 200) {
+                                                    //     this.setState({
+                                                    //         isEmpty: true,
+                                                    //         isError: false
+                                                    //     })
+                                                    // } else {
+                                                    //     this.setState({
+                                                    //         isError: true
+                                                    //     })
+                                                    // }
+
+                                                })
+                                            }
                                         }}
 
                                     >
@@ -143,7 +164,7 @@ class Checkout extends Component<MergedProps, IState> {
 
                                                 <FormGroup className={"panel"}>
                                                     <legend>Tên miền liên kết <sup className={'text-red'}>(*)</sup></legend>
-                                                    <Field name="doamin" className={"form-control"} style={{ width: 250 }} />
+                                                    <Field name="domain" className={"form-control"} style={{ width: 250 }} />
                                                     {errors.domain && touched.domain ? (
                                                         <div className={'text-red'}>{errors.domain}</div>
                                                     ) : null}
@@ -155,7 +176,7 @@ class Checkout extends Component<MergedProps, IState> {
                                                         <Field name="coupon" className={"form-control"} style={{ width: 250 }} />
                                                         <InputGroupAddon addonType="prepend"><Button type={'submit'} className={"btn btn-primary margin-top-15"}>Áp Dụng</Button></InputGroupAddon>
                                                     </InputGroup>
-                                                </FormGroup>                                
+                                                </FormGroup>
                                                 <FormGroup className={"panel"}>
                                                     <legend>Hình Thức Thanh Toán</legend>
                                                     <FormGroup check>
@@ -172,19 +193,19 @@ class Checkout extends Component<MergedProps, IState> {
                                                     </FormGroup>
                                                     <FormGroup check disabled>
                                                         <Label check>
-                                                            <Input type="radio" name="radio1"  />{' '}
+                                                            <Input type="radio" name="radio1" />{' '}
                                                             ZaloPay
                                                         </Label>
                                                     </FormGroup>
                                                     <FormGroup check disabled>
                                                         <Label check>
-                                                            <Input type="radio" name="radio1"  />{' '}
+                                                            <Input type="radio" name="radio1" />{' '}
                                                             Thẻ Ngân Hàng
                                                         </Label>
                                                     </FormGroup>
                                                     <FormGroup check disabled>
                                                         <Label check>
-                                                            <Input type="radio" name="radio1"  />{' '}
+                                                            <Input type="radio" name="radio1" />{' '}
                                                             Thanh Toán Sau
                                                         </Label>
                                                     </FormGroup>
@@ -193,24 +214,7 @@ class Checkout extends Component<MergedProps, IState> {
                                                     <Label className={"text-red text-bold"}>Tổng Tiền</Label>
                                                 </FormGroup>
                                                 <FormGroup className={"mg5 text-center "} >
-                                                    <Button color="primary" onClick={() => {
-                                                        console.log(productionItem);
-                                                        !productionItem && config.popup.show("YES", "Bạn cần chọn sản phẩm cần mua trước");
-                                                        profile && order(profile, productionItem, (res: IResponseOrderPackage) => {
-                                                            console.log(productionItem);
-                                                            // if (res.code == 200) {
-                                                            //     this.setState({
-                                                            //         isEmpty: true,
-                                                            //         isError: false
-                                                            //     })
-                                                            // } else {
-                                                            //     this.setState({
-                                                            //         isError: true
-                                                            //     })
-                                                            // }
-
-                                                        })
-                                                    }} type={'submit'} className={"btn btn-primary"}>Đặt Hàng</Button>
+                                                    <Button color="primary" type={'submit'} className={"btn btn-primary"}>Đặt Hàng</Button>
                                                 </FormGroup>
 
                                             </Form>

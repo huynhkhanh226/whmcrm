@@ -19,26 +19,7 @@ export interface IPackage {
     maxPark: number | string | undefined,
     maxSQL: number | string | undefined,
     price: number,
-    // BWLIMIT: "10000"
-    // CGI: "y"
-    // CPMOD: "paper_lantern"
-    // DIGESTAUTH: "n"
-    // FEATURELIST: "default"
-    // HASSHELL: "n"
-    // IP: "n"
-    // LANG: "en"
-    // MAXADDON: "unlimited"
-    // MAXFTP: "1"
-    // MAXLST: "unlimited"
-    // MAXPARK: "unlimited"
-    // MAXPOP: "1"
-    // MAXSQL: "unlimited"
-    // MAXSUB: "unlimited"
-    // MAX_DEFER_FAIL_PERCENTAGE: "0"
-    // MAX_EMAILACCT_QUOTA: "100"
-    // MAX_EMAIL_PER_HOUR: "0"
-    // QUOTA: "500"
-    // name: "vndehvla_BASIC"
+    [key:string] : any,
 }
 
 export interface IRequestPackageAction {
@@ -55,16 +36,16 @@ const convertPackages = (data: Array<any>): IPackage[] => {
     let result: IPackage[] = [];
     for (let i = 0; i < data.length; i++) {
         let item = {
-            packageID: data[i].name,
-            bandwidth: data[i].BWLIMIT,
-            diskQuota: data[i].QUOTA,
-            maxAddon: data[i].MAXADDON,
-            maxSub: data[i].MAXSUB,
-            maxFTP: data[i].MAXFTP,
-            maxPark: data[i].MAXPARK,
-            maxSQL: data[i].MAXSQL,
+            packageID: data[i].package_id,
+            bandwidth: data[i].bandwidth,
+            diskQuota: data[i].disk_quota,
+            maxAddon: data[i].max_addon,
+            maxSub: data[i].max_addon,
+            maxFTP: data[i].max_ftp,
+            maxPark: data[i].max_park,
+            maxSQL: data[i].max_sql,
         } as IPackage
-        switch (data[i].name) {
+        switch (data[i].package_id) {
             case "vndehvla_LITE":
                 item = {
                     ...item,
