@@ -69,13 +69,13 @@ class Packages extends Component<MergedProps, IState> {
 
     onRegister = (item: IPackage) => {
         if (_.indexOf(this.props.cart, item) >= 0) {
-            this.props.removePackage(item, (res)=>{
+            this.props.removePackage(item, (res) => {
                 this.props.addCart(item, () => {
                     console.log(this.props.cart);
                     toast("Sản phầm đã được thêm vào giỏ hàng");
                 })
             })
-            
+
         } else {
             this.props.addCart(item, () => {
                 console.log(this.props.cart);
@@ -90,7 +90,7 @@ class Packages extends Component<MergedProps, IState> {
             <div className={'package-container'}>
                 {packages && <h1 className={"fade-in text-center"}>Hosting Linux</h1>}
                 <div className={'package-list'}>
-                    {packages && packages.map((item: IPackage & {months?: number|string}) => (
+                    {packages && packages.map((item: IPackage & { months?: number | string }) => (
                         <div className={"card-item-container fade-in"} key={item.packageName}>
                             <Card key={item.packageName}>
                                 <CardBody>
@@ -111,7 +111,7 @@ class Packages extends Component<MergedProps, IState> {
                                     <CardText>Max Parked Domain : <strong>{item.maxPark}</strong></CardText>
                                     <CardText>Max SQL : <strong>{item.maxSQL}</strong></CardText>
                                     <CardText>Price : <strong className={"text-red"}>{item.price} VND/Tháng</strong></CardText>
-                                    <select className={'form-control form-group'} onChange={(e) =>item.months = e.target.value }>
+                                    <select className={'form-control form-group'} onChange={(e) => item.months = e.target.value}>
                                         <option value="3"> 3 Tháng = {3 * item.price}</option>
                                         <option value="6">6 Tháng = {6 * item.price * 1000}VND</option>
                                         <option value="12">12 Tháng = {12 * item.price * 1000}VND</option>

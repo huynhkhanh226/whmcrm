@@ -22,6 +22,12 @@ export interface IPackage {
     [key:string] : any,
 }
 
+export interface ICoupon{
+    couponId: string,
+    couponName: string,
+    rate: number,
+}
+
 export interface IRequestPackageAction {
     type: ActionTypes.GET_PACKAGE_REQUEST,
     payload: IPackage[]
@@ -143,6 +149,38 @@ export const order = (user: IUser, pkg: IPackage & { domain: string }, cb: (res:
         //callback GUI
         if (cb)
             cb(response.data);
+    }
+}
+
+
+export interface IRequestGetCoupons {
+    type: ActionTypes.COUPONS_GET_REQUEST,
+}
+
+export interface IResponseGetCoupons {
+    type: ActionTypes.COUPONS_GET_RESPONSE,
+    payload: ICoupon[]
+}
+
+export const getCoupons = () => {
+    return async (dispatch: Dispatch) => {
+        const url = "http://127.0.0.1:1337/api/v1/whm/get-coupons";
+        dispatch<IRequestGetCoupons>({
+            type: ActionTypes.COUPONS_GET_REQUEST,
+        })
+
+        const response = await axios.post(url);
+        const result = response.data.map((item:any) => {
+            return {
+                couponId: item.coupon_id,
+                couponName: item.coupon_name
+            }
+        })
+        //convert data
+        dispatch<IResponseGetCoupons>({
+            type: ActionTypes.COUPONS_GET_RESPONSE,
+            payload: result
+        })
     }
 }
 

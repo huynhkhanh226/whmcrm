@@ -2,16 +2,17 @@ import React, { Component } from 'react'
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { IStoreState } from '../../reducers';
-import { IPackage, getPackages, order, IResponseOrderPackageAction, IResponseOrderPackage, removePackage } from '../../actions';
+import { IPackage, getPackages, order, IResponseOrderPackageAction, IResponseOrderPackage, removePackage, ICoupon, getCoupons } from '../../actions';
 import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { FormGroup, Label, Input, Col, Container, Row, Button, Card, CardBody, CardTitle, CardSubtitle, CardText, Alert, ListGroup, ListGroupItem, Table, InputGroup, InputGroupAddon } from 'reactstrap';
+import { FormGroup, Label, Input, Col, Container, Row, Button, Card, CardBody, CardTitle, CardSubtitle, CardText, Alert, ListGroup, ListGroupItem, Table, InputGroup, InputGroupAddon, Util } from 'reactstrap';
 import { IUser } from '../../actions/users';
 import { userInfo } from 'os';
 import config from '../../config/Config';
 import { toast } from 'react-toastify';
+import { Common } from '../../helpers';
 
 export interface IParam {
 
@@ -21,10 +22,11 @@ interface IProps extends RouteComponentProps<IParam> {
 
 }
 
-const mapStateToProps = (state: IStoreState): { packages: IPackage[], cart: IPackage[] } => {
+const mapStateToProps = (state: IStoreState): { packages: IPackage[], cart: IPackage[], coupons: ICoupon[] } => {
     return {
         packages: state.packages,
         cart: state.cart,
+        coupons: state.coupons,
     }
 }
 
@@ -32,6 +34,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<IStoreState, void, Action>) 
     ...{
         order: (user: IUser, pkg: IPackage & { domain: string }, cb: (res: IResponseOrderPackage) => void) => dispatch(order(user, pkg, cb)),
         removePackage: (pkg: IPackage, cb: (res: any) => void) => dispatch(removePackage(pkg, cb)),
+        getCoupons: () => dispatch(getCoupons()),
     }
 
 });
@@ -61,7 +64,7 @@ class Checkout extends Component<MergedProps, IState> {
     }
 
     componentDidMount() {
-        //this.props.getPackages();
+        this.props.getCoupons();
     }
 
     removeItem = (pkg: IPackage) => {
@@ -69,6 +72,17 @@ class Checkout extends Component<MergedProps, IState> {
             toast("Sản phẩm đã được xoá")
         })
     }
+
+    handleChangeCoupon = (value: string | number) => {
+        const filter = this.props.coupons.filter((coupon) => {
+            return coupon.couponId == value;
+        });
+        if (filter.length == 1) {
+            const rate = filter[0].rate;
+            console.log(rate);
+        }
+    }
+
 
     render() {
         const { location, order, cart } = this.props;
@@ -104,19 +118,24 @@ class Checkout extends Component<MergedProps, IState> {
                                                     <td>Tên Gói</td>
                                                     <td>Đơn Giá</td>
                                                     <td>Số Tháng</td>
+                                                    <td>Thành Tiền</td>
                                                     <td className={"text-center"}>#</td>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {cart.map((pkg: IPackage) => (
-                                                    <tr key={pkg.packageID}>
-                                                        <td>{pkg.packageID}</td>
-                                                        <td>{pkg.packageName}</td>
-                                                        <td>{pkg.price * 12 * 1000}VND</td>
-                                                        <td>12 tháng</td>
-                                                        <td className={"text-center text-red"}><Button onClick={() => this.removeItem(pkg)}>Xoá</Button></td>
-                                                    </tr>
-                                                ))
+                                                {cart.map((pkg: IPackage) => {
+                                                    pkg.total = pkg.price * 1000 * (pkg.months || 3);
+                                                    return (
+                                                        <tr key={pkg.packageID}>
+                                                            <td>{pkg.packageID}</td>
+                                                            <td>{pkg.packageName}</td>
+                                                            <td><span className={"text-red text-bold"}>{Common.formatNumber(pkg.price * 1000, 2)}</span><sup>đ</sup></td>
+                                                            <td>{pkg.months || 3} Tháng</td>
+                                                            <td><span className={"text-red text-bold"}>{Common.formatNumber(pkg.total)}</span><sup>đ</sup></td>
+                                                            <td className={"text-center text-red"}><Button onClick={() => this.removeItem(pkg)}>Xoá</Button></td>
+                                                        </tr>
+                                                    )
+                                                })
                                                 }
                                             </tbody>
                                         </Table>
@@ -173,7 +192,7 @@ class Checkout extends Component<MergedProps, IState> {
                                                 <FormGroup className={"panel"}>
                                                     <legend >Mã Giảm Giá</legend>
                                                     <InputGroup style={{ width: 332 }}>
-                                                        <Field name="coupon" className={"form-control"} style={{ width: 250 }} />
+                                                        <Field name="coupon" className={"form-control"} style={{ width: 250 }} onChange={(e: any) => this.handleChangeCoupon(e.target.value)} />
                                                         <InputGroupAddon addonType="prepend"><Button type={'submit'} className={"btn btn-primary margin-top-15"}>Áp Dụng</Button></InputGroupAddon>
                                                     </InputGroup>
                                                 </FormGroup>
@@ -211,7 +230,7 @@ class Checkout extends Component<MergedProps, IState> {
                                                     </FormGroup>
                                                 </FormGroup>
                                                 <FormGroup className={"panel"}>
-                                                    <Label className={"text-red text-bold"}>Tổng Tiền</Label>
+                                                    <Label className={"text-red text-bold margin-right-15"}>Tổng Tiền: {Common.formatNumber(Number(Common.sumColumn(cart, "total")))} VND</Label>
                                                 </FormGroup>
                                                 <FormGroup className={"mg5 text-center "} >
                                                     <Button color="primary" type={'submit'} className={"btn btn-primary"}>Đặt Hàng</Button>

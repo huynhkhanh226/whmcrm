@@ -1,5 +1,5 @@
 //import { FetchToDosAction, DeleteToDoAction } from "./todos";
-import { IRequestPackageAction, IResponsePackageAction} from "./packages";
+import { IRequestPackageAction, IResponsePackageAction, IRequestGetCoupons, IResponseGetCoupons} from "./packages";
 import { IRequestProfileAction, IResponseProfileAction  } from "./users";
 import { IAddCartAction, ICartRemoveItemAction, ICartRemoveAllAction } from "./cart";
 
@@ -21,9 +21,13 @@ export enum ActionTypes {
     CART_ADD = "CART_ADD",
     CART_REMOVE_ITEM = "CART_REMOVE_ITEM",
     CART_REMOVE_ALL = "CART_REMOVE_ALL",
+
+    COUPONS_GET_REQUEST = "CART_REMOVE_ALL",
+    COUPONS_GET_RESPONSE = "COUPONS_GET_RESPONSE",
 }
 
 export type Actions = 
 | IRequestPackageAction | IResponsePackageAction 
 | IRequestProfileAction | IResponseProfileAction
 | IAddCartAction | ICartRemoveItemAction | ICartRemoveAllAction
+| IRequestGetCoupons | IResponseGetCoupons
