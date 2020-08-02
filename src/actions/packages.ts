@@ -9,15 +9,15 @@ var _ = require('lodash');
 /**============================================================================ */
 export interface IPackage {
     order?: number,
-    packageID: string,
+    packageId: string,
     packageName?: string,
     bandwidth: number | string | undefined,
     diskQuota: number | string | undefined,
     maxAddon: number | string | undefined,
     maxSub: number | string | undefined,
-    maxFTP: number | string | undefined,
+    maxFtp: number | string | undefined,
     maxPark: number | string | undefined,
-    maxSQL: number | string | undefined,
+    maxSql: number | string | undefined,
     price: number,
     [key:string] : any,
 }
@@ -41,21 +41,11 @@ export interface IResponsePackageAction {
 const convertPackages = (data: Array<any>): IPackage[] => {
     let result: IPackage[] = [];
     for (let i = 0; i < data.length; i++) {
-        let item = {
-            packageID: data[i].package_id,
-            bandwidth: data[i].bandwidth,
-            diskQuota: data[i].disk_quota,
-            maxAddon: data[i].max_addon,
-            maxSub: data[i].max_addon,
-            maxFTP: data[i].max_ftp,
-            maxPark: data[i].max_park,
-            maxSQL: data[i].max_sql,
-        } as IPackage
-        switch (data[i].package_id) {
+        let item = data[i] as IPackage
+        switch (data[i].packageId) {
             case "vndehvla_LITE":
                 item = {
                     ...item,
-                    packageName: "LITE",
                     price: 27,
                     order: 1,
                 }
@@ -63,7 +53,6 @@ const convertPackages = (data: Array<any>): IPackage[] => {
             case "vndehvla_BASIC":
                 item = {
                     ...item,
-                    packageName: "BASIC",
                     price: 37,
                     order: 2,
                 }
@@ -71,7 +60,6 @@ const convertPackages = (data: Array<any>): IPackage[] => {
             case "vndehvla_BUSINESS":
                 item = {
                     ...item,
-                    packageName: "BUSINESS",
                     price: 47,
                     order: 3,
                 }
@@ -79,7 +67,6 @@ const convertPackages = (data: Array<any>): IPackage[] => {
             case "vndehvla_PREMIUM":
                 item = {
                     ...item,
-                    packageName: "PREMIUM",
                     price: 57,
                     order: 4,
                 }
@@ -170,16 +157,16 @@ export const getCoupons = () => {
         })
 
         const response = await axios.post(url);
-        const result = response.data.map((item:any) => {
-            return {
-                couponId: item.coupon_id,
-                couponName: item.coupon_name
-            }
-        })
+        // const result = response.data.data.map((item:any) => {
+        //     return {
+        //         couponId: item.couponId,
+        //         couponName: item.couponName
+        //     }
+        // })
         //convert data
         dispatch<IResponseGetCoupons>({
             type: ActionTypes.COUPONS_GET_RESPONSE,
-            payload: result
+            payload: response.data.data
         })
     }
 }

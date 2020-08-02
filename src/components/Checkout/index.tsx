@@ -74,13 +74,13 @@ class Checkout extends Component<MergedProps, IState> {
     }
 
     handleChangeCoupon = (value: string | number) => {
-        const filter = this.props.coupons.filter((coupon) => {
-            return coupon.couponId == value;
-        });
-        if (filter.length == 1) {
-            const rate = filter[0].rate;
-            console.log(rate);
-        }
+        // const filter = this.props.coupons.filter((coupon) => {
+        //     return coupon.couponId == value;
+        // });
+        // if (filter.length == 1) {
+        //     const rate = filter[0].rate;
+        //     console.log(rate);
+        // }
     }
 
 

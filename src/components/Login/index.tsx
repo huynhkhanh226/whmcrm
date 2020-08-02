@@ -100,9 +100,9 @@ class Login extends Component<MergedProps, IState> {
                                         if (res.code == 200) {
                                             localStorage.setItem("user", JSON.stringify(res.data));
                                             localStorage.setItem("isAuth", "true");
-                                            config.popup.show("YES", res.message, () => {
+                                            //config.popup.show("YES", res.message, () => {
                                                 window.location.href = (previousState && previousState.redirect ? previousState.redirect.pathname : "/")
-                                            });
+                                            //});
                                         } else {
                                             config.popup.show("YESNO", res.message, () => {
                                             });

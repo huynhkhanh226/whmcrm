@@ -19,7 +19,7 @@ export const cartReducer = (state: IPackage[] = initCart,
             return newList;
         case ActionTypes.CART_REMOVE_ITEM:
             newList = state.filter((pkg: IPackage)=>{
-                return pkg.packageID.toString() != action.payload.packageID.toString();
+                return pkg.packageId.toString() != action.payload.packageId.toString();
             })
             localStorage.setItem("cart", JSON.stringify(newList));
             db.post({cart: newList});

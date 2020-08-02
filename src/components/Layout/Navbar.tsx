@@ -117,7 +117,7 @@ const NavBar: React.FC<MergedProps> = ({ cart, removePackage, removeAllPackage }
                                 <DropdownMenu right className={"fade-in"}>
                                         {
                                             cart.map((item: IPackage) => (
-                                                <div key={item.packageName} onClick={() => onRemoveCart(item)}>
+                                                <div key={item.packageId} onClick={() => onRemoveCart(item)}>
                                                     <DropdownItem>
                                                         {item.packageName}
                                                     </DropdownItem>
@@ -140,7 +140,7 @@ const NavBar: React.FC<MergedProps> = ({ cart, removePackage, removeAllPackage }
                     <NavbarText className={'pointer text-bold'}>
                         <div className={"cart-button"}>
                             {localStorage.getItem("isAuth") === "true"
-                                && <RouterLink to={{ pathname: Common.url() + "", state: { pass: "some data" } }} onClick={() => { localStorage.removeItem("isAuth"); }} className={'nav-link'}><FontAwesomeIcon icon={faUnlock} className={"margin-right-5  text-red"} />Đăng xuất</RouterLink>
+                                && <RouterLink to={{ pathname: Common.url() + "", state: { pass: "some data" } }} onClick={() => { localStorage.removeItem("isAuth"); window.location.href="/login"}} className={'nav-link'}><FontAwesomeIcon icon={faUnlock} className={"margin-right-5  text-red"} />Đăng xuất</RouterLink>
                             }
                             {localStorage.getItem("isAuth") !== "true"
                                 && <RouterLink to={{ pathname: Common.url() + "login", state: { pass: "some data" } }} onClick={() => { localStorage.removeItem("isAuth"); }} className={'nav-link'}><FontAwesomeIcon icon={faUnlock} className={"margin-right-5"} />Đăng nhập</RouterLink>
