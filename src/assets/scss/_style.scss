@@ -245,7 +245,7 @@ table {
 }
 
 .text-red{
-    color: red;
+    color: red !important;
 }
 
 .width-450{
@@ -302,8 +302,8 @@ table {
     }
     .dropdown-menu{
         min-width: 280px;
-        border-radius: 14px;
-        box-shadow: 0px 1px 3px inset #80bdff;
+        // border-radius: 14px;
+        // box-shadow: 0px 1px 3px inset #80bdff;
     }
     
   }
@@ -324,9 +324,9 @@ table {
 
   }
 
-  .navbar-light .navbar-text a{
-    color: #333 !important;
-  }
+//   .navbar-light .navbar-text a{
+//     color: #333 !important;
+//   }
 
   table {
         display: table;

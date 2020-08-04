@@ -68,7 +68,10 @@ class Packages extends Component<MergedProps, IState> {
 
 
     onRegister = (item: IPackage) => {
-        if (_.indexOf(this.props.cart, item) >= 0) {
+        const filter = this.props.cart.filter((pkg: IPackage) => {
+            return pkg.packageId == item.packageId;
+        })
+        if (filter.length >= 0) {
             this.props.removePackage(item, (res) => {
                 this.props.addCart(item, () => {
                     console.log(this.props.cart);

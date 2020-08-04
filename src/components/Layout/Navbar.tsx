@@ -20,14 +20,14 @@ import {
 } from 'reactstrap';
 import { Common } from '../../helpers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faUnlock, faBook, faPager, faShoppingCart, faIcons } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faUnlock, faBook, faPager, faShoppingCart, faIcons, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { IStoreState } from '../../reducers';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
 import { IPackage } from '../../actions/packages';
 import { Action } from 'redux';
 import { removePackage, removeAllPackage } from '../../actions';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const DivNavBar = styled.div`
     border-bottom: 1px solid #ededed;
@@ -92,7 +92,7 @@ const NavBar: React.FC<MergedProps> = ({ cart, removePackage, removeAllPackage }
     const onRemoveAllCart = () => {
         removeAllPackage((res: any) => {
             console.log(cart);
-            
+
         })
     }
 
@@ -123,24 +123,32 @@ const NavBar: React.FC<MergedProps> = ({ cart, removePackage, removeAllPackage }
                                     <FontAwesomeIcon icon={faShoppingCart} className={"margin-right-5 text-warning"} /><sup>{cart.length || 0}</sup>
                                 </DropdownToggle>
                                 <DropdownMenu right className={"fade-in"}>
-                                        {
-                                            cart.map((item: IPackage) => (
-                                                <div key={item.packageId} onClick={() => onRemoveCart(item)}>
-                                                    <DropdownItem>
-                                                        {item.packageName}
-                                                    </DropdownItem>
-                                                    <DropdownItem divider />
-                                                </div>
-                                            ))
-                                        }
-                                    <DropdownItem>
+                                    {
+                                        cart.map((item: IPackage) => (
+                                            <div key={item.packageId}>
+                                                <DropdownItem>
+                                                    <div>
+                                                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                                                            <div>{item.packageName}</div>
+                                                            <div>{Common.formatNumber((item.months||3) * item.price * 1000)}<sup>đ</sup></div>
+                                                        </div>
+                                                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                                                            <div>{item.months || 3} tháng</div>
+                                                            <FontAwesomeIcon icon={faTimes} className={"margin-right-5  text-red"}  onClick={() => onRemoveCart(item)} title={"Xoá"}/>
+                                                        </div>
+                                                    </div>
+                                                </DropdownItem>
+                                                <DropdownItem divider />
+                                            </div>
+                                        ))
+                                    }
+                                    <DropdownItem className={"text-center pointer"}>
                                         <RouterLink to={{ pathname: Common.url() + "checkout", state: { pass: "some data" } }} className={'nav-link'}>Thanh Toán</RouterLink>
                                     </DropdownItem>
                                     <DropdownItem divider />
-                                    <DropdownItem>
-                                    <a onClick={() => onRemoveAllCart()}>Xoá tất cả</a>
+                                    <DropdownItem className={"text-center pointer"}>
+                                        <a className={"text-red text-bold"} onClick={() => onRemoveAllCart()}>Xoá tất cả</a>
                                     </DropdownItem>
-                                    
                                 </DropdownMenu>
                             </UncontrolledDropdown>
                         </NavbarText>
@@ -148,7 +156,7 @@ const NavBar: React.FC<MergedProps> = ({ cart, removePackage, removeAllPackage }
                     <NavbarText className={'pointer text-bold'}>
                         <div className={"cart-button"}>
                             {localStorage.getItem("isAuth") === "true"
-                                && <RouterLink to={{ pathname: Common.url() + "", state: { pass: "some data" } }} onClick={() => { localStorage.removeItem("isAuth"); window.location.href="/login"}} className={'nav-link'}><FontAwesomeIcon icon={faUnlock} className={"margin-right-5  text-red"} />Đăng xuất</RouterLink>
+                                && <RouterLink to={{ pathname: Common.url() + "", state: { pass: "some data" } }} onClick={() => { localStorage.removeItem("isAuth"); window.location.href = "/login" }} className={'nav-link'}><FontAwesomeIcon icon={faUnlock} className={"margin-right-5  text-red"} />Đăng xuất</RouterLink>
                             }
                             {localStorage.getItem("isAuth") !== "true"
                                 && <RouterLink to={{ pathname: Common.url() + "login", state: { pass: "some data" } }} onClick={() => { localStorage.removeItem("isAuth"); }} className={'nav-link'}><FontAwesomeIcon icon={faUnlock} className={"margin-right-5"} />Đăng nhập</RouterLink>
