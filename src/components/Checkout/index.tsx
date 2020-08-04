@@ -69,7 +69,15 @@ class Checkout extends Component<MergedProps, IState> {
 
     removeItem = (pkg: IPackage) => {
         this.props.removePackage(pkg, (res) => {
-            toast("Sản phẩm đã được xoá")
+            toast("Sản phẩm đã được xoá", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
         })
     }
 
@@ -126,8 +134,8 @@ class Checkout extends Component<MergedProps, IState> {
                                                 {cart.map((pkg: IPackage) => {
                                                     pkg.total = pkg.price * 1000 * (pkg.months || 3);
                                                     return (
-                                                        <tr key={pkg.packageID}>
-                                                            <td>{pkg.packageID}</td>
+                                                        <tr key={pkg.packageId}>
+                                                            <td>{pkg.packageId}</td>
                                                             <td>{pkg.packageName}</td>
                                                             <td><span className={"text-red text-bold"}>{Common.formatNumber(pkg.price * 1000, 2)}</span><sup>đ</sup></td>
                                                             <td>{pkg.months || 3} Tháng</td>

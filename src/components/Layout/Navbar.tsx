@@ -77,7 +77,15 @@ const NavBar: React.FC<MergedProps> = ({ cart, removePackage, removeAllPackage }
     const onRemoveCart = (item: IPackage) => {
         removePackage(item, (res: any) => {
             console.log(cart);
-            toast("Bạn đã xoá 1 sản phẩm ra khỏi giỏ hàng")
+            toast("Bạn đã xoá 1 sản phẩm ra khỏi giỏ hàng"{
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
         })
     }
 

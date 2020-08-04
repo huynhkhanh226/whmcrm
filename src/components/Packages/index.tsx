@@ -72,14 +72,30 @@ class Packages extends Component<MergedProps, IState> {
             this.props.removePackage(item, (res) => {
                 this.props.addCart(item, () => {
                     console.log(this.props.cart);
-                    toast("Sản phầm đã được thêm vào giỏ hàng");
+                    toast("Sản phầm đã được thêm vào giỏ hàng",  {
+                        position: "top-center",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    } );
                 })
             })
 
         } else {
             this.props.addCart(item, () => {
                 console.log(this.props.cart);
-                toast("Sản phầm đã được thêm vào giỏ hàng");
+                toast("Sản phầm đã được thêm vào giỏ hàng",  {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
         }
     }
