@@ -29,8 +29,9 @@ import { Action } from 'redux';
 import { removePackage, removeAllPackage } from '../../actions';
 import { toast } from 'react-toastify';
 
-const DivNavBar = styled.div`
+const Container = styled.div`
     border-bottom: 1px solid #ededed;
+    height: 72px;
 `;
 
 
@@ -97,15 +98,12 @@ const NavBar: React.FC<MergedProps> = ({ cart, removePackage, removeAllPackage }
     }
 
     return (
-        <DivNavBar>
+        <Container>
             <Navbar color="light" fixed="top" light expand="md" className={"fade-in"}>
                 <RouterLink to={{ pathname: Common.url() + "", state: { pass: "some data" } }} className={'text-company'}><strong>DEV HOSTING</strong></RouterLink>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto text-bold" navbar>
-                        <RouterLink to={{ pathname: Common.url() + "packages", state: { pass: "some data" } }} className={'nav-link'}><FontAwesomeIcon icon={faIcons} className={"margin-right-5 text-red"} />Hosting Linux</RouterLink>
-                        <RouterLink to={{ pathname: Common.url() + "seo", state: { pass: "some data" } }} className={'nav-link'}><FontAwesomeIcon icon={faIcons} className={"margin-right-5 text-primary"} />SEO</RouterLink>
-                        <RouterLink to={{ pathname: Common.url() + "design", state: { pass: "some data" } }} className={'nav-link'}><FontAwesomeIcon icon={faIcons} className={"margin-right-5 text-warning"} />Thiết Kế Web</RouterLink>
                         <RouterLink to={{ pathname: Common.url() + "contact", state: { pass: "some data" } }} className={'nav-link'}><FontAwesomeIcon icon={faBook} className={"margin-right-5 text-primary"} />Liên Hệ</RouterLink>
                     </Nav>
 
@@ -165,7 +163,7 @@ const NavBar: React.FC<MergedProps> = ({ cart, removePackage, removeAllPackage }
                     </NavbarText>
                 </Collapse>
             </Navbar>
-        </DivNavBar >
+        </Container >
     );
 }
 

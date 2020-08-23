@@ -1,7 +1,7 @@
 import React, { Component, Suspense } from 'react';
 import { Route, Switch, Router } from "react-router-dom";
 import './App.scss';
-import { Master } from './components/Layout/master';
+import { Master } from './components/Layout/Master';
 import { Guest } from './components/Layout/Guest'
 //import { PrivateRoute } from './PrivateRoute';
 import { history } from './helpers/history';

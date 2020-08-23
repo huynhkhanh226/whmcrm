@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 import NavBar from './Navbar';
 import styled from "styled-components";
 import { ToastContainer } from 'react-toastify';
+import LeftSideBar from './LeftSideBar';
+import RightSideBar from './RightSideBar';
+
+const Header = styled.div`
+    height: 72px;
+`;
 
 const Wrapper = styled.div`
   height: 100%;
@@ -15,24 +21,38 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const Container = styled.div`
+const Body = styled.div`
     display: flex;
-    flex-direction: column;
-    padding: 15px;
-    margin-top: 72px;
+    flex-direction: row;
 `;
 
-interface Props {
+const Content = styled.div`
+    display: flex;
+    flex-direction:column;
+    width: calc(100% - 500px);
+    padding: 5px;
+`;
+
+
+interface IProps {
 
 }
 
-export const Master: React.FC<Props> = ({ children }) => {
+export const Master: React.FC<IProps> = ({ children }) => {
     return (
         <>
             <Wrapper>
-                <NavBar />
                 <ToastContainer />
-                <Container>{children}</Container>
+                <Header>
+                    <NavBar />
+                </Header>
+                <Body>
+                    <LeftSideBar />
+                    <Content>
+                        {children}
+                    </Content>
+                    <RightSideBar />
+                </Body>
             </Wrapper>
         </>
     );

@@ -16,6 +16,8 @@ import { addCart, removePackage } from '../../actions/cart';
 import * as _ from 'lodash';
 import config from '../../config/Config';
 import { toast } from 'react-toastify';
+import MyBreadcrumb from '../Layout/Breadcrumb';
+import styled from 'styled-components';
 
 export interface IParam {
 
@@ -58,6 +60,22 @@ interface IState {
 
 }
 
+const Container = styled.div`
+    border: 1px solid #ededed;
+    padding: 10px;
+`;
+
+const List = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+`;
+
+const ListItem = styled.div`
+    width: calc(100% / 2);
+    padding: 5px;
+`;
+
 class Packages extends Component<MergedProps, IState> {
     state = {}
 
@@ -75,7 +93,7 @@ class Packages extends Component<MergedProps, IState> {
             this.props.removePackage(item, (res) => {
                 this.props.addCart(item, () => {
                     console.log(this.props.cart);
-                    toast("Sản phầm đã được thêm vào giỏ hàng",  {
+                    toast("Sản phầm đã được thêm vào giỏ hàng", {
                         position: "top-center",
                         autoClose: 3000,
                         hideProgressBar: false,
@@ -83,14 +101,14 @@ class Packages extends Component<MergedProps, IState> {
                         pauseOnHover: true,
                         draggable: true,
                         progress: undefined,
-                    } );
+                    });
                 })
             })
 
         } else {
             this.props.addCart(item, () => {
                 console.log(this.props.cart);
-                toast("Sản phầm đã được thêm vào giỏ hàng",  {
+                toast("Sản phầm đã được thêm vào giỏ hàng", {
                     position: "top-center",
                     autoClose: 3000,
                     hideProgressBar: false,
@@ -106,21 +124,13 @@ class Packages extends Component<MergedProps, IState> {
     render() {
         const { packages } = this.props;
         return (
-            <div className={'package-container'}>
-                {packages && <h1 className={"fade-in text-center"}>Hosting Linux</h1>}
-                <div className={'package-list'}>
+            <Container>
+                <MyBreadcrumb title={"Hosting Linux"} />
+                <List>
                     {packages && packages.map((item: IPackage & { months?: number | string }) => (
-                        <div className={"card-item-container fade-in"} key={item.packageName}>
+                        <ListItem className={"card-item-container fade-in"} key={item.packageName}>
                             <Card key={item.packageName}>
                                 <CardBody>
-                                    {/* packageName: data[i].name,
-                                        bandwidth: data[i].BWLIMIT,
-                                        diskQuota: data[i].QUOTA,
-                                        maxAddon: data[i].MAXADDON,
-                                        maxSub: data[i].MAXSUB,
-                                        maxFTP: data[i].MAXFTP,
-                                        maxPark: data[i].MAXPARK,
-                                        maxSQL: data[i].MAXSQL, */}
                                     <CardTitle>Package Name : <strong className={"text-primary"}>{item.packageName}</strong></CardTitle>
                                     <CardText>Bandwidth : <strong>{item.bandwidth}</strong></CardText>
                                     <CardText>Disk Quota : <strong className={"text-primary"}>{item.diskQuota} MB</strong></CardText>
@@ -140,13 +150,13 @@ class Packages extends Component<MergedProps, IState> {
                                 </CardBody>
 
                             </Card>
-                        </div>
+                        </ListItem>
                     ))}
                     {
                         !packages && <Loading />
                     }
-                </div>
-            </div>
+                </List>
+            </Container>
         )
     }
 }
