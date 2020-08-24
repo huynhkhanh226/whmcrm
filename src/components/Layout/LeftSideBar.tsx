@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react'
 import styled from "styled-components";
 import MainMenu from './MainMenu';
+import Categories from '../Category';
 
 const Container = styled.div`
     width: 250px;
@@ -16,6 +17,7 @@ const LeftSideBar: React.FC<IProps> = (props) => {
     return (
         <Container>
             <MainMenu/>
+            <Categories/>
         </Container>
     )
 }

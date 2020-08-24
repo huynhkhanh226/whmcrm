@@ -33,10 +33,7 @@ const MainMenu: React.FC<IProps> = props => {
                 <RouterLink to={{ pathname: Common.url() + "packages", state: { pass: "some data" } }} className={'nav-link'}><FontAwesomeIcon icon={faIcons} className={"margin-right-5 text-red"} />Hosting Linux</RouterLink>
             </MenuItem>
             <MenuItem>
-                <RouterLink to={{ pathname: Common.url() + "seo", state: { pass: "some data" } }} className={'nav-link'}><FontAwesomeIcon icon={faIcons} className={"margin-right-5 text-primary"} />SEO</RouterLink>
-            </MenuItem>
-            <MenuItem>
-                <RouterLink to={{ pathname: Common.url() + "design", state: { pass: "some data" } }} className={'nav-link'}><FontAwesomeIcon icon={faIcons} className={"margin-right-5 text-warning"} />Thiết Kế Web</RouterLink>
+                <RouterLink to={{ pathname: Common.url() + "design", state: { pass: "some data" } }} className={'nav-link'}><FontAwesomeIcon icon={faIcons} className={"margin-right-5 text-warning"} />Dịch Vụ Website</RouterLink>
             </MenuItem>
             <MenuItem>
                 <RouterLink to={{ pathname: Common.url() + "contact", state: { pass: "some data" } }} className={'nav-link'}><FontAwesomeIcon icon={faBook} className={"margin-right-5 text-primary"} />Liên Hệ</RouterLink>
